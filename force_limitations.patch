@@ -1,0 +1,13 @@
+--- /media/traud/0000-73C4/Asterisk/asterisk-evs/res/res_format_attr_evs.c	2016-11-18 10:09:18.000000000 +0100
++++ /usr/src/asterisk-13.10.0-rc3/res/res_format_attr_evs.c	2016-11-18 14:27:34.296281476 +0100
+@@ -21,2 +21,2 @@ static struct evs_attr default_evs_attr
+-	.hf_only                = -1, /* all formats                      */
+-	.dtx                    =  2, /* on                               */
++	.hf_only                =  1, /* only Header Full format          */
++	.dtx                    =  0, /* off                              */
+@@ -25 +25 @@ static struct evs_attr default_evs_attr
+-	.max_red                = -1, /* no redundancy limit              */
++	.max_red                =  0, /* no redundancy                    */
+@@ -37 +37 @@ static struct evs_attr default_evs_attr
+-	.ch_aw_recv             =  0, /* not at start                     */
++	.ch_aw_recv             = -1, /* off; not linked to RTCP          */
