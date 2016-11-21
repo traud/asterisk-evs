@@ -261,7 +261,7 @@ static struct ast_frame *lintoevs_frameout(struct ast_trans_pvt *pvt)
 		((0x20 >> apvt->encoder->Opt_AMR_WB) + PRIMARY_16400); /* 0x20 is WB */
 	const int cmr = attr ? attr->cmr : 0;
 	const int bandwidth = (mode & 0x70);
-	const int bit_rate = (mode & 0x0f);
+	unsigned int bit_rate = (mode & 0x0f);
 
 	if (0x10 == bandwidth) {
 		apvt->encoder->Opt_AMR_WB = 1;
@@ -315,8 +315,15 @@ static struct ast_frame *lintoevs_frameout(struct ast_trans_pvt *pvt)
 		samples += n_samples;
 		pvt->samples -= n_samples;
 
-		if (apvt->encoder->nb_bits_tot <= 0) {
+		if (apvt->encoder->nb_bits_tot == 0) {
 			continue; /* happens in case of DTX */
+		} else if (apvt->encoder->nb_bits_tot == 35) {
+			bit_rate = AMRWB_IO_SID;
+		} else if (apvt->encoder->nb_bits_tot == 48) {
+			bit_rate = PRIMARY_SID;
+		} else if (apvt->encoder->nb_bits_tot < 56) {
+			ast_log(LOG_ERROR, "Error encoding the 3GPP EVS frame (code: %d)\n", apvt->encoder->nb_bits_tot);
+			continue;
 		}
 
 		/* Change Mode Request (CMR) */

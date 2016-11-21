@@ -72,8 +72,7 @@ The Rohde & Schwarz CMW500 can be extended for EVS – however here, this transc
 
 Although this list is rather long, these features are disabled at SDP negotiation via the `force_limitations.patch` and should not create an interoperability issue.
 
-* DTX/VAD/CN: Silence Insertion Descriptor (SID) frames are untested.
-* VBR: The lowest mode is variable in bitrate (average 5.9 kbit/s) but requires DTX.
+* VBR: The lowest mode is variable in bitrate (average 5.9 kbit/s); untested.
 * Compound payload: Several frames per payload, for example when FEC or a packetization time (ptime) longer than 20 ms are used. This is useful to lower the overall overhead (RTP, UDP, and IP) of the lowest mode even further.
 * Packet-Loss Concealment (native PLC), see [ASTERISK-25629…](http://issues.asterisk.org/jira/browse/ASTERISK-25629)
 * Channel Awareness (RTCP interaction), see [ASTERISK-26584…](http://issues.asterisk.org/jira/browse/ASTERISK-26584)
