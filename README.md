@@ -1,8 +1,8 @@
 # 3GPP EVS for Asterisk
 
-This is an implementation of 3GPP TS 26.445 [Annex A](http://webapp.etsi.org/key/key.asp?GSMSpecPart1=26&GSMSpecPart2=445). Sometimes, 3GPP Enhanced Voice Services (EVS) are called [Full-HD Voice](http://www.iis.fraunhofer.de/en/ff/amm/prod/kommunikation/komm/evs.html). Research papers comparing EVS with other audio codecs were given at [ICASSP 2015](http://dx.doi.org/10.1109/ICASSP.2015.7178954). Further [examples…](http://www.full-hd-voice.com/en/convince-yourself.html)
+This is an implementation of 3GPP TS 26.445 [Annex A](http://webapp.etsi.org/key/key.asp?GSMSpecPart1=26&GSMSpecPart2=445). Sometimes, 3GPP Enhanced Voice Services (EVS) are called [Full-HD Voice](http://www.iis.fraunhofer.de/en/ff/amm/prod/kommunikation/komm/evs.html). Qualcomm calls it Ultra HD Voice. Research papers comparing EVS with other audio codecs were published at [ICASSP 2015](http://dx.doi.org/10.1109/ICASSP.2015.7178954). Further [examples…](http://www.full-hd-voice.com/en/convince-yourself.html)
 
-To add a codec for SIP/SDP (m=, rtmap, and ftmp), you create a format module in Asterisk: `codec_evs.patch` (for m= and rtmap) and `res/res_format_attr_evs.c` (for fmtp). However, this requires both call legs to support EVS (pass-through only). If one leg does not support EVS, the call has no audio. Or, if you use the pre-recorded voice and music files of Asterisk, these files cannot be heard, because they are not in EVS but in slin. Therefore, this repository adds not just a format module for the audio-codec EVS but a transcoding module as well: `codecs/codec_evs.c`.
+To add a codec for SIP/SDP (m=, rtmap, and ftmp), you create a format module in Asterisk: `codec_evs.patch` (for m= and rtmap) and `res/res_format_attr_evs.c` (for fmtp). However, this requires both call legs to support EVS (pass-through only). If one leg does not support EVS, the call has no audio. Or, if you use the pre-recorded voice and music files of Asterisk, these files cannot be heard, because they are not in EVS but in slin. Therefore, this repository adds not just a format module for the audio-codec EVS but a transcoding module as well: `build_evs.patch` and `codecs/codec_evs.c`.
 
 ## Installing the patch
 
@@ -24,10 +24,8 @@ Apply the patch:
 
 Install libraries:
 
-If you do not want transcoding but pass-through only (because of license issues) please, skip this step. To support transcoding, you’ll need to install the 3GPP EVS reference implementation, for example in Debian/Ubuntu:
+If you do not want transcoding but pass-through only (because of license issues) please, skip this step. To support transcoding, you’ll need to install the 3GPP EVS Reference Implementation, for example in Debian/Ubuntu:
 
-	patch -p0 <./build_evs.patch
-	patch -p0 <./force_limitations.patch
 	wget www.etsi.org/deliver/etsi_ts/126400_126499/126443/13.03.00_60/ts_126443v130300p0.zip
 	unzip -qq ts_126443v*.zip
 	unzip -qq 26443-c70_d30-ANSI-C_source_code.zip
@@ -41,6 +39,8 @@ If you do not want transcoding but pass-through only (because of license issues)
 	gcc -shared -o lib3gpp-evs.so *.o
 	sudo cp ./lib3gpp-evs.so /usr/lib/
 	cd /usr/src/asterisk*
+	patch -p0 <./build_evs.patch
+	patch -p0 <./force_limitations.patch
 
 Run the bootstrap script to re-generate configure:
 
@@ -64,7 +64,7 @@ Compile and install:
 
 Currently, I am not aware of any other VoIP/SIP project offering EVS. Consequently, you have to patch two Asterisk servers and run EVS between those. My main objective was to play around, test, and learn more about EVS.
 
-Although the Qualcomm Snapdragon 820 (and newer) chipset(s) offer EVS, not all phones come with EVS enabled. Not all of the remaing phones offer the built-in VoIP/SIP client of the Android Open Source Platform (AOSP). Finally, I am not aware of one phone which bridges the EVS capabilities between the hardware chipset and the software client.
+Although the Qualcomm Snapdragon 820 (and [newer](http://www.qualcomm.com/products/snapdragon/modems/4g-lte)) chipset(s) offer EVS, not all phones come with EVS enabled. Of the remaining phones, not all offer the built-in VoIP/SIP client of the Android Open Source Platform (AOSP). Finally, I am not aware of one phone which bridges its EVS capabilities between the hardware chipset and that software client.
 
 The Rohde & Schwarz CMW500 can be extended for EVS – however here, this transcoding module was not tested with that either.
 
@@ -84,4 +84,4 @@ The transcoding module works for me and contains everything I need. If you canno
 
 ## Thanks go to
 
-everyone who made the 3GPP EVS reference implementation possible.
+everyone who made the 3GPP EVS Reference Implementation possible.
