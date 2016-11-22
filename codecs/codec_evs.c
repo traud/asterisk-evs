@@ -50,6 +50,8 @@ struct evs_coder_pvt {
 };
 
 static Word16 unpack_bit(UWord8 **pt, UWord8 *mask);
+static Word16 rate2AMRWB_IOmode(Word32 rate);
+static Word16 rate2EVSmode(Word32 rate);
 static short select_mode(short Opt_AMR_WB, short Opt_RF_ON, long total_brate);
 static int select_bit_rate(int bit_rate, int max_bandwidth);
 
@@ -66,6 +68,72 @@ static Word16 unpack_bit(UWord8 **pt, UWord8 *mask)
 	}
 
 	return bit;
+}
+
+static Word16 rate2AMRWB_IOmode(Word32 rate)
+{
+	switch (rate) {
+	/* EVS AMR-WB IO modes */
+	case SID_1k75:
+		return AMRWB_IO_SID;
+	case ACELP_6k60:
+		return AMRWB_IO_6600;
+	case ACELP_8k85:
+		return AMRWB_IO_8850;
+	case ACELP_12k65:
+		return AMRWB_IO_1265;
+	case ACELP_14k25:
+		return AMRWB_IO_1425;
+	case ACELP_15k85:
+		return AMRWB_IO_1585;
+	case ACELP_18k25:
+		return AMRWB_IO_1825;
+	case ACELP_19k85:
+		return AMRWB_IO_1985;
+	case ACELP_23k05:
+		return AMRWB_IO_2305;
+	case ACELP_23k85:
+		return AMRWB_IO_2385;
+	default:
+		return -1;
+	}
+}
+
+static Word16 rate2EVSmode(Word32 rate)
+{
+	switch (rate) {
+	/* EVS Primary modes */
+	case FRAME_NO_DATA :
+		return NO_DATA;
+	case SID_2k40:
+		return PRIMARY_SID;
+	case PPP_NELP_2k80:
+		return PRIMARY_2800;
+	case ACELP_7k20:
+		return PRIMARY_7200;
+	case ACELP_8k00:
+		return PRIMARY_8000;
+	case ACELP_9k60:
+		return PRIMARY_9600;
+	case ACELP_13k20:
+		return PRIMARY_13200;
+	case ACELP_16k40:
+		return PRIMARY_16400;
+	case ACELP_24k40:
+		return PRIMARY_24400;
+	case ACELP_32k:
+		return PRIMARY_32000;
+	case ACELP_48k:
+		return PRIMARY_48000;
+	case ACELP_64k:
+		return PRIMARY_64000;
+	case HQ_96k:
+		return PRIMARY_96000;
+	case HQ_128k:
+		return PRIMARY_128000;
+	default:
+		return rate2AMRWB_IOmode(rate);
+	}
 }
 
 /* Copy & Paste from lib_enc/io_enc.c:io_ini_enc */
@@ -170,9 +238,7 @@ static int lintoevs_new(struct ast_trans_pvt *pvt)
 	 * library "lib_enc/io_enc.c:io_ini_enc" cases:
 	 * 1) st->Opt_SC_VBR && !st->Opt_DTX_ON
 	 * 2) st->total_brate == ACELP_5k90 */
-	if (0 == bit_rate_evs) {
-		apvt->encoder->Opt_SC_VBR = 1;
-	}
+	apvt->encoder->Opt_SC_VBR = (0 == bit_rate_evs);
 	if (sample_rate <= 8000 || max_bandwidth == NB) {
 		apvt->encoder->max_bwidth = NB;
 	} else if (sample_rate <= 16000 || max_bandwidth == WB || apvt->encoder->Opt_SC_VBR) {
@@ -315,13 +381,10 @@ static struct ast_frame *lintoevs_frameout(struct ast_trans_pvt *pvt)
 		samples += n_samples;
 		pvt->samples -= n_samples;
 
-		if (apvt->encoder->nb_bits_tot == 0) {
+		bit_rate = rate2EVSmode(apvt->encoder->nb_bits_tot * 50);
+		if (bit_rate == NO_DATA) {
 			continue; /* happens in case of DTX */
-		} else if (apvt->encoder->nb_bits_tot == 35) {
-			bit_rate = AMRWB_IO_SID;
-		} else if (apvt->encoder->nb_bits_tot == 48) {
-			bit_rate = PRIMARY_SID;
-		} else if (apvt->encoder->nb_bits_tot < 56) {
+		} else if (bit_rate < 0) {
 			ast_log(LOG_ERROR, "Error encoding the 3GPP EVS frame (code: %d)\n", apvt->encoder->nb_bits_tot);
 			continue;
 		}
@@ -374,10 +437,8 @@ static struct ast_frame *lintoevs_frameout(struct ast_trans_pvt *pvt)
 static int evstolin_framein(struct ast_trans_pvt *pvt, struct ast_frame *f)
 {
 	/* ToDo: 1) Packet-Loss Concealment (PLC)
-	 *       2) SID frames (DTX/VAD/CN) are untested
-	 *       3) SC-VBR is untested
-	 *       4) several frames; currently just one frame
-	 *       5) Compact format; currently only Header-Full format */
+	 *       2) several frames; currently just one frame
+	 *       3) Compact format; currently only Header-Full format */
 	struct evs_coder_pvt *apvt = pvt->pvt;
 	const short n_samples = pvt->t->dst_codec.sample_rate / 50;
 
