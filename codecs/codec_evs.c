@@ -196,7 +196,7 @@ static int lintoevs_new(struct ast_trans_pvt *pvt)
 	struct evs_attr *attr = pvt->explicit_dst ?
 		ast_format_get_attribute_data(pvt->explicit_dst) : NULL;
 	const int channel_aware = attr ? MIN(attr->ch_aw_send, attr->ch_aw_recv) : -2;
-	const int dtx_on = attr ? attr->dtx : 0;
+	const unsigned int dtx_on = attr ? MIN(attr->dtx, attr->dtx_send) : 0;
 	const int amr_wb = attr ? attr->evs_mode_switch : -1;
 	const int max_bandwidth = attr ? /* WB matches all bit-rates */
 		floor(log10(attr->bw_send) / log10(2)) - 1 : WB;

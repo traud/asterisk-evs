@@ -16,7 +16,7 @@ struct evs_attr {
 	 *  0 disabled
 	 *  1 might happen; always included in SDP
 	 *  2 might happen; not included in SDP because default */
-	int dtx;
+	unsigned int dtx;
 	/*  Asterisk as DTX sender
 	 *  0 receiver told sender (Asterisk) not to do DTX
 	 *  1 receiver allows DTX */
