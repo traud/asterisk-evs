@@ -1,12 +1,12 @@
 --- res/res_format_attr_evs.c	(3GPP EVS for Asterisk 1.0)
 +++ res/res_format_attr_evs.c	(working copy)
-@@ -21,2 +21,2 @@ static struct evs_attr default_evs_attr
+@@ -21 +21 @@ static struct evs_attr default_evs_attr
 -	.hf_only                = -1, /* all formats                      */
--	.dtx                    =  2, /* on                               */
 +	.hf_only                =  1, /* only Header Full format          */
-+	.dtx                    =  0, /* off                              */
-@@ -25 +25 @@ static struct evs_attr default_evs_attr
+@@ -24,2 +24,2 @@ static struct evs_attr default_evs_attr
+-	.dtx_recv               =  2, /* on                               */
 -	.max_red                = -1, /* no redundancy limit              */
++	.dtx_recv               =  0, /* off                              */
 +	.max_red                =  0, /* no redundancy                    */
 @@ -37 +37 @@ static struct evs_attr default_evs_attr
 -	.ch_aw_recv             =  0, /* not at start                     */
