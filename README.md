@@ -33,7 +33,7 @@ If you do not want transcoding but pass-through only (because of license issues)
 	chmod +r ./lib_*/*.h
 	sudo mkdir /usr/include/3gpp-evs
 	sudo cp --verbose --target-directory=/usr/include/3gpp-evs ./lib_*/*.h
-	DEBUG=0 RELEASE=1 CFLAGS='-NDEBUG -fPIC' make
+	DEBUG=0 RELEASE=1 CFLAGS='-DNDEBUG -fPIC' make
 	cd ./build
 	rm ./decoder.o
 	gcc -shared -o lib3gpp-evs.so *.o
