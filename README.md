@@ -6,7 +6,7 @@ To add a codec for SIP/SDP (m=, rtmap, and ftmp), you create a format module in 
 
 ## Installing the patch
 
-At least Asterisk 13.7 is required. These changes were last tested with Asterisk 13.12 (and Asterisk 14.1). If you use a newer version and the patch fails, please, [report](https://help.github.com/articles/creating-an-issue/)!
+At least Asterisk 13.7 is required. These changes were last tested with Asterisk 13.13 (and Asterisk 14.2). If you use a newer version and the patch fails, please, [report](https://help.github.com/articles/creating-an-issue/)!
 
 	cd /usr/src/
 	wget downloads.asterisk.org/pub/telephony/asterisk/asterisk-13-current.tar.gz

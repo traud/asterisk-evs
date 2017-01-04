@@ -1,4 +1,4 @@
---- include/asterisk/format_cache.h	(Asterisk 13.12.1)
+--- include/asterisk/format_cache.h	(Asterisk 13.13.1)
 +++ include/asterisk/format_cache.h	(working copy)
 @@ -234,2 +234,7 @@
  /*!
@@ -8,9 +8,9 @@
 +
 +/*!
   * \brief Initialize format cache support within the core.
---- main/codec_builtin.c	(Asterisk 13.12.1)
+--- main/codec_builtin.c	(Asterisk 13.13.1)
 +++ main/codec_builtin.c	(working copy)
-@@ -839,2 +839,13 @@
+@@ -855,2 +855,13 @@
 
 +
 +static struct ast_codec evs = {
@@ -24,12 +24,12 @@
 +};
 +
  #define CODEC_REGISTER_AND_CACHE(codec) \
-@@ -871,2 +883,4 @@
+@@ -887,2 +899,4 @@
  
 +	res |= CODEC_REGISTER_AND_CACHE(evs);
 +
  	res |= CODEC_REGISTER_AND_CACHE(g723);
---- main/format_cache.c	(Asterisk 13.12.1)
+--- main/format_cache.c	(Asterisk 13.13.1)
 +++ main/format_cache.c	(working copy)
 @@ -220,2 +220,7 @@
  /*!
@@ -44,14 +44,14 @@
 +	ao2_replace(ast_format_evs, NULL);
 +
  	ao2_replace(ast_format_g723, NULL);
-@@ -414,2 +421,4 @@
- 		ao2_replace(ast_format_testlaw, format);
+@@ -416,2 +423,4 @@
+ 		ao2_replace(ast_format_g719, format);
 +	} else if (!strcmp(name, "evs")) {
 +		ao2_replace(ast_format_evs, format);
- 	} else if (!strcmp(name, "g719")) {
---- main/rtp_engine.c	(Asterisk 13.12.1)
+ 	} else if (!strcmp(name, "opus")) {
+--- main/rtp_engine.c	(Asterisk 13.13.1)
 +++ main/rtp_engine.c	(working copy)
-@@ -2252,2 +2252,4 @@
+@@ -2307,2 +2307,4 @@
  	add_static_payload(107, ast_format_opus, 0);
 +
 +	ast_rtp_engine_load_format(ast_format_evs);

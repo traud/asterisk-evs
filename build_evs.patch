@@ -1,23 +1,23 @@
---- build_tools/menuselect-deps.in	(Asterisk 13.6.0)
+--- build_tools/menuselect-deps.in	(Asterisk 13.13.1)
 +++ build_tools/menuselect-deps.in	(working copy)
-@@ -6,2 +6,3 @@
- BISON=@PBX_BISON@
+@@ -9,2 +9,3 @@
+ DLADDR=@PBX_DLADDR@
 +EVS=@PBX_EVS@
- CURL=@PBX_CURL@
---- configure.ac	(Asterisk 13.6.0)
+ FLEX=@PBX_FLEX@
+--- configure.ac	(Asterisk 13.13.1)
 +++ configure.ac	(working copy)
-@@ -409,2 +409,3 @@
- AST_EXT_LIB_SETUP([CAP], [POSIX 1.e capabilities], [cap])
+@@ -460,2 +460,3 @@
+ AST_EXT_LIB_SETUP([DAHDI], [DAHDI], [dahdi])
 +AST_EXT_LIB_SETUP([EVS], [3GPP EVS Audio Decoder/Encoder], [3gpp-evs])
- AST_EXT_LIB_SETUP([COROSYNC], [Corosync], [cpg])
-@@ -2217,2 +2218,4 @@
+ AST_EXT_LIB_SETUP([FFMPEG], [Ffmpeg and avcodec], [avcodec])
+@@ -2356,2 +2357,4 @@
  
 +AST_EXT_LIB_CHECK([EVS], [3gpp-evs], [evs_enc], [3gpp-evs/prot.h])
 +
  AST_EXT_LIB_CHECK([COROSYNC], [cpg], [cpg_join], [corosync/cpg.h], [-lcfg])
---- makeopts.in	(Asterisk 13.6.0)
+--- makeopts.in	(Asterisk 13.13.1)
 +++ makeopts.in	(working copy)
-@@ -127,2 +127,5 @@
+@@ -135,2 +135,5 @@
  
 +EVS_INCLUDE=@EVS_INCLUDE@
 +EVS_LIB=@EVS_LIB@
