@@ -24,7 +24,7 @@
 +};
 +
  #define CODEC_REGISTER_AND_CACHE(codec) \
-@@ -887,2 +899,4 @@
+@@ -887,2 +898,4 @@
  
 +	res |= CODEC_REGISTER_AND_CACHE(evs);
 +
