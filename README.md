@@ -24,11 +24,11 @@ Apply the patch:
 
 Install libraries:
 
-If you do not want transcoding but pass-through only (because of license issues) please, skip this step. To support transcoding, you’ll need to install the 3GPP EVS Reference Implementation, for example in Debian/Ubuntu:
+If you do not want transcoding but pass-through only (because of license issues) please, skip this step. To support transcoding, you’ll need to install the [3GPP EVS Reference Implementation](http://webapp.etsi.org/key/key.asp?GSMSpecPart1=26&GSMSpecPart2=443), for example in Debian/Ubuntu:
 
-	wget www.etsi.org/deliver/etsi_ts/126400_126499/126443/13.03.00_60/ts_126443v130300p0.zip
+	wget www.etsi.org/deliver/etsi_ts/126400_126499/126443/14.00.00_60/ts_126443v140000p0.zip
 	unzip -qq ts_126443v*.zip
-	unzip -qq 26443-c70_d30-ANSI-C_source_code.zip
+	unzip -qq 26443-*-ANSI-C_source_code.zip
 	cd ./c-code
 	chmod +r ./lib_*/*.h
 	sudo mkdir /usr/include/3gpp-evs
