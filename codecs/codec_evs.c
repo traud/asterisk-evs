@@ -797,7 +797,7 @@ static int load_module(void)
 	evs_codec = ast_codec_get("evs", AST_MEDIA_TYPE_AUDIO, 16000);
 	if (NULL == evs_codec) {
 		ast_log(LOG_ERROR, "Please, apply the file 'codec_evs.patch'!\n");
-		return AST_MODULE_LOAD_FAILURE;
+		return AST_MODULE_LOAD_DECLINE;
 	}
 	evs_previous_sample_counter = evs_codec->samples_count;
 	evs_codec->samples_count = evs_sample_counter;
@@ -824,7 +824,7 @@ static int load_module(void)
 
 	if (res) {
 		unload_module();
-		return AST_MODULE_LOAD_FAILURE;
+		return AST_MODULE_LOAD_DECLINE;
 	}
 
 	return AST_MODULE_LOAD_SUCCESS;
