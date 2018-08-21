@@ -553,7 +553,7 @@ static void lintoevs_destroy(struct ast_trans_pvt *pvt)
 	}
 
 	destroy_encoder(apvt->encoder);
-	apvt->encoder = NULL;
+	ast_free(apvt->encoder);
 
 	ast_debug(3, "Destroyed encoder (3GPP EVS)\n");
 }
@@ -567,7 +567,7 @@ static void evstolin_destroy(struct ast_trans_pvt *pvt)
 	}
 
 	destroy_decoder(apvt->decoder);
-	apvt->decoder = NULL;
+	ast_free(apvt->decoder);
 
 	ast_debug(3, "Destroyed decoder (3GPP EVS)\n");
 }
