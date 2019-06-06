@@ -26,6 +26,7 @@
 
 #define BUFFER_SAMPLES 5760
 #define BUFFER_BYTES   (MAX_BITS_PER_FRAME + 7) / 8
+#define	EVS_SAMPLES	320
 
 /* Sample frame data */
 #include "asterisk/slin.h"
@@ -411,7 +412,7 @@ static struct ast_frame *lintoevs_frameout(struct ast_trans_pvt *pvt)
 		/* Convert bits into bytes, +7 is for rounding-up */
 		datalen = datalen + ((apvt->encoder->nb_bits_tot + 7) / 8);
 		/* out was and is still part of pvt->outbuf.uc */
-		current = ast_trans_frameout(pvt, datalen, n_samples);
+		current = ast_trans_frameout(pvt, datalen, EVS_SAMPLES);
 
 		/* Everything used, therefore reset hidden index pointers */
 		reset_indices_enc(apvt->encoder);
