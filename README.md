@@ -36,7 +36,7 @@ If you do not want transcoding but pass-through only (because of license issues)
 	DEBUG=0 RELEASE=1 CFLAGS='-DNDEBUG -fPIC' make
 	cd ./build
 	rm ./decoder.o
-	gcc -shared -o lib3gpp-evs.so *.o
+	cc -shared -o lib3gpp-evs.so *.o
 	sudo cp ./lib3gpp-evs.so /usr/lib/
 	cd /usr/src/asterisk*
 	patch -p0 <./build_evs.patch
