@@ -26,6 +26,7 @@
 
 #define BUFFER_SAMPLES 5760
 #define BUFFER_BYTES   (MAX_BITS_PER_FRAME + 7) / 8
+#define	EVS_SAMPLES    320
 
 /* Sample frame data */
 #include "asterisk/slin.h"
@@ -411,7 +412,7 @@ static struct ast_frame *lintoevs_frameout(struct ast_trans_pvt *pvt)
 		/* Convert bits into bytes, +7 is for rounding-up */
 		datalen = datalen + ((apvt->encoder->nb_bits_tot + 7) / 8);
 		/* out was and is still part of pvt->outbuf.uc */
-		current = ast_trans_frameout(pvt, datalen, n_samples);
+		current = ast_trans_frameout(pvt, datalen, EVS_SAMPLES);
 
 		/* Everything used, therefore reset hidden index pointers */
 		reset_indices_enc(apvt->encoder);
@@ -760,7 +761,7 @@ static struct ast_translator lin48toevs = {
 
 static int evs_sample_counter(struct ast_frame *frame)
 {
-	return 320; /* ToDo: several frames per RTP payload (ToC) */
+	return EVS_SAMPLES; /* ToDo: several frames per RTP payload (ToC) */
 	/* is this required? would limit Asterisk to Header-Full
 	 * format, because here the result of the SDP negotiation
 	 * is unknown. In Header-Full-only mode, the payloads are
