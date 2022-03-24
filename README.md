@@ -26,7 +26,7 @@ Install libraries:
 
 If you do not want transcoding but pass-through only (because of license issues) please, skip this step. To support transcoding, you’ll need to install the [3GPP EVS Reference Implementation](http://webapp.etsi.org/key/key.asp?GSMSpecPart1=26&GSMSpecPart2=443), for example in Debian/Ubuntu:
 
-	wget www.etsi.org/deliver/etsi_ts/126400_126499/126443/15.00.00_60/ts_126443v150000p0.zip
+	wget www.etsi.org/deliver/etsi_ts/126400_126499/126443/16.01.00_60/ts_126443v160100p0.zip
 	unzip -qq ts_126443v*.zip
 	unzip -qq 26443-*-ANSI-C_source_code.zip
 	cd ./c-code
