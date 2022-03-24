@@ -26,7 +26,7 @@
 
 #define BUFFER_SAMPLES 5760
 #define BUFFER_BYTES   (MAX_BITS_PER_FRAME + 7) / 8
-#define	EVS_SAMPLES	320
+#define	EVS_SAMPLES    320
 
 /* Sample frame data */
 #include "asterisk/slin.h"
@@ -761,7 +761,7 @@ static struct ast_translator lin48toevs = {
 
 static int evs_sample_counter(struct ast_frame *frame)
 {
-	return 320; /* ToDo: several frames per RTP payload (ToC) */
+	return EVS_SAMPLES; /* ToDo: several frames per RTP payload (ToC) */
 	/* is this required? would limit Asterisk to Header-Full
 	 * format, because here the result of the SDP negotiation
 	 * is unknown. In Header-Full-only mode, the payloads are
